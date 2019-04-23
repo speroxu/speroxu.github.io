@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="什么是Tor？Tor 即The Onion Router，是使用洋葱路由实现匿名通信的软件。The Tor Project是一个非营利（慈善机构）组织负责维护和开发Tor软件。下面是在其网站上对Tor的介绍。  Tor是一个可以在您的计算机上运行的程序，可以帮助您在Internet上保持安全。它通过在世界各地的志愿者运行的分布式中继网络进行通信来保护您：它可以防止有人观看您的互联网连接，了解您访问">
+<meta name="keywords" content="tor,翻墙">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tor meek 命令行配置">
+<meta property="og:url" content="http://speroxu.js.org/2019/04/19/ tor-meek-命令行配置/index.html">
+<meta property="og:site_name" content="Spero的博客">
+<meta property="og:description" content="什么是Tor？Tor 即The Onion Router，是使用洋葱路由实现匿名通信的软件。The Tor Project是一个非营利（慈善机构）组织负责维护和开发Tor软件。下面是在其网站上对Tor的介绍。  Tor是一个可以在您的计算机上运行的程序，可以帮助您在Internet上保持安全。它通过在世界各地的志愿者运行的分布式中继网络进行通信来保护您：它可以防止有人观看您的互联网连接，了解您访问">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-04-23T07:03:55.396Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tor meek 命令行配置">
+<meta name="twitter:description" content="什么是Tor？Tor 即The Onion Router，是使用洋葱路由实现匿名通信的软件。The Tor Project是一个非营利（慈善机构）组织负责维护和开发Tor软件。下面是在其网站上对Tor的介绍。  Tor是一个可以在您的计算机上运行的程序，可以帮助您在Internet上保持安全。它通过在世界各地的志愿者运行的分布式中继网络进行通信来保护您：它可以防止有人观看您的互联网连接，了解您访问">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Spero的博客" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="http://speroxu.js.org/2019/04/19/ tor-meek-命令行配置/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Tor meek 命令行配置 | Spero的博客</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Spero的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签<span class="badge">4</span></a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+      
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档<span class="badge">3</span></a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://speroxu.js.org/2019/04/19/ tor-meek-命令行配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Spero Xu">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://robohash.org/speroxu">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Spero的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tor meek 命令行配置
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-19 10:39:25" itemprop="dateCreated datePublished" datetime="2019-04-19T10:39:25+08:00">2019-04-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-04-23 15:03:55" itemprop="dateModified" datetime="2019-04-23T15:03:55+08:00">2019-04-23</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/04/19/ tor-meek-命令行配置/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/19/ tor-meek-命令行配置/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="什么是Tor？"><a href="#什么是Tor？" class="headerlink" title="什么是Tor？"></a>什么是Tor？</h2><p>Tor 即<code>The Onion Router</code>，是使用洋葱路由实现匿名通信的软件。<code>The Tor Project</code>是一个非营利（慈善机构）组织负责维护和开发Tor软件。下面是在其网站上对Tor的介绍。</p>
+<blockquote>
+<p>Tor是一个可以在您的计算机上运行的程序，可以帮助您在Internet上保持安全。它通过在世界各地的志愿者运行的分布式中继网络进行通信来保护您：它可以防止有人观看您的互联网连接，了解您访问的网站，并防止您访问的网站了解您的实际位置。这套志愿者中继被称为Tor网络。大多数人使用Tor的方式是使用Tor浏览器，这是一个修复许多隐私问题的Firefox版本。您可以在概述页面上阅读有关Tor如何工作的更多信息。</p>
+</blockquote>
+<a id="more"></a>
+<p>Tor官方建议使用<a href="https://2019.www.torproject.org/projects/torbrowser.html.en" target="_blank" rel="noopener"><code>Tor Browser</code></a>，但是我不想在电脑中多存在一个浏览器。</p>
+<h2 id="桥接中继"><a href="#桥接中继" class="headerlink" title="桥接中继"></a>桥接中继</h2><p>桥接中继（或者简称“桥接”）是未在主Tor目录中列出的Tor中继。因为没有完整的公共列表，即使您的ISP正在过滤所有到已知Tor中继的连接，它们也可能无法阻断所有桥接。如果您怀疑Tor网络正被阻止访问，则您可能需要使用桥接。</p>
+<h3 id="配置桥接"><a href="#配置桥接" class="headerlink" title="配置桥接"></a>配置桥接</h3><p>例如，当您从<a href="https://bridges.torproject.org获得桥接时，您将获得如下所示的桥接条目：" target="_blank" rel="noopener">https://bridges.torproject.org获得桥接时，您将获得如下所示的桥接条目：</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">141.201.27.48：443 4352e58420e68f5e40bf7c74faddccd9d1349413</span><br></pre></td></tr></table></figure>
+<p>第一个元素是桥接的IP地址：<code>&#39;141.201.27.48&#39;</code><br>第二个元素是端口号：<code>&#39;443&#39;</code><br>第三个元素，指纹（桥接的唯一标识符）是可选的： <code>&#39;4352e58420e68f5e40bf7c74faddccd9d1349413&#39;</code></p>
+<h2 id="Pluggable-Transport"><a href="#Pluggable-Transport" class="headerlink" title="Pluggable Transport"></a>Pluggable Transport</h2><p>在过去几年中，即使客户使用桥接，审查机构也已找到阻止Tor的方法。他们通常通过在ISP上安装专用盒子来实现这一目的，这些盒子可以窥视网络流量并检测Tor; 当检测到Tor时，它们会阻止流量。</p>
+<p>为了规避这种复杂的审查，Tor引入了 <a href="https://2019.www.torproject.org/docs/pluggable-transports.html.en" target="_blank" rel="noopener"><em>可插拔传输系统</em>(Pluggable Transport)</a>。这些传输操纵客户端与其第一跳之间的所有Tor流量，使其无法识别为Tor连接。如果审查者无法确定连接是否是Tor连接，那么他们就不太可能阻止它。</p>
+<p>遗憾的是，如果审查者有足够的时间，可插拔传输系统也不能免于检测。过去，我们将obfs和obfs2提升为安全传输。这些现已弃用，并被obfs3，scramblesuit，fte和obfs4取代。</p>
+<p>以上内容翻译自<code>The Tor Project</code><a href="https://2019.www.torproject.org/docs/bridges.html.en" target="_blank" rel="noopener">关于桥接的文档</a>.</p>
+<p>目前Tor 中常用的可插拔传输系统如下：</p>
+<h3 id="ScrambleSuit"><a href="#ScrambleSuit" class="headerlink" title="ScrambleSuit"></a>ScrambleSuit</h3><p>ScrambleSuit是一种规避审查制度的多态网络协议，是另一种看似统一随机字节的传输。 它相比obfs3有几个改变：它随机化数据包的大小和时间，服务器通过在响应之前要求客户端的密钥来阻止主动探测。 十六进制转储看起来像您期望的随机噪声。</p>
+<h3 id="OBFS4"><a href="#OBFS4" class="headerlink" title="OBFS4"></a>OBFS4</h3><!-- obfs 单词指 `obfuscating`，混淆或模糊处理。 -->
+<!-- `obfs2`最初是为了应对伊朗的深度分组检测(DPI)对Tor链路的审查。 -->
+<p>这是TCP的混淆层协议。其目的是防止第三方根据消息内容得知正在使用的协议。obfs4尝试提供身份验证和数据完整性，但它仍然主要围绕为现有的经过身份验证的协议（如SSH或TLS）提供一层模糊处理。该协议有两个阶段：在第一阶段，双方都建立密钥。在第二，双方交换超级加密的流量。</p>
+<h3 id="FTE"><a href="#FTE" class="headerlink" title="FTE"></a>FTE</h3><p>FTE，即<code>Format Transforming Encryption 格式转换加密</code>传输，它利用格式转换加密，可将明文转换为符合预定义格式的密文，通常是转换为另一种协议的格式。因此，它能编码数据使其匹配任意的正则表达式。这个想法是因为审查硬件使用正则表达式将流量分类为允许和不允许的类别。就正则表达式而言，FTE使您的流量看起来像允许类别中的某些内容。</p>
+<h3 id="meek"><a href="#meek" class="headerlink" title="meek"></a>meek</h3><p>meek是一种<a href="https://trac.torproject.org/projects/tor/wiki/doc/PluggableTransports" target="_blank" rel="noopener">Pluggable Transport</a>，是Tor的一个混淆层，旨在逃避互联网审查。流量通过很难限制的第三方服务器进行中继，例如通过<a href="https://en.wikipedia.org/wiki/Content_delivery_network" target="_blank" rel="noopener">CDN</a>。它采用了一种名为<a href="https://www.bamsoftware.com/papers/fronting/" target="_blank" rel="noopener">domain fronting</a>的技巧来与Tor中继通信，进而去跟另一个域通信。</p>
+<p><code>Tor</code>当前内置的meek是<code>meek-azure</code>也即让您看起来像是在和Azure服务器交互（但是您实际上在和Tor网络进行交互）。参见<a href="https://trac.torproject.org/projects/tor/wiki/doc/meek" target="_blank" rel="noopener">这里</a>。</p>
+<p>以上介绍均翻译自Tor的官网文档。</p>
+<h2 id="Tor命令行配置"><a href="#Tor命令行配置" class="headerlink" title="Tor命令行配置"></a>Tor命令行配置</h2><p>因为国内的特殊网络环境，我们需要使用meek桥接来使Tor在国内可以使用。</p>
+<h3 id="下载-Tor-命令行版"><a href="#下载-Tor-命令行版" class="headerlink" title="下载 Tor 命令行版"></a>下载 Tor 命令行版</h3><p>官网上的<a href="https://2019.www.torproject.org/download/download.html.en" target="_blank" rel="noopener">这个页面</a>。选择<code>Source Code</code>下载适合你的版本。</p>
+<p>解压，然后：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">./configure</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>然后我们可以通过<code>tor</code>使用了。</p>
+<h3 id="安装-meek"><a href="#安装-meek" class="headerlink" title="安装 meek"></a>安装 meek</h3><p>meek 使用Go语言编写，所以首先你需要安装Go语言。如果你还没有安装Go，请参照<a href="https://golang.org/" target="_blank" rel="noopener">这里</a>。</p>
+<p>下载Meek代码：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://git.torproject.org/pluggable-transports/meek.git</span><br><span class="line">cd meek/meek-client</span><br><span class="line">go get</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p><code>make</code>得到产物 <code>meek-client</code>。</p>
+<h3 id="配置meek"><a href="#配置meek" class="headerlink" title="配置meek"></a>配置meek</h3><p>参照meek-client 文件夹内的 torrc 文件，修改您的torrc配置文件。</p>
+<p>在<code>meek-client</code>的文件夹里，就已经有一个配置好的<code>torrc</code>文件，里面放了两个默认的meek节点。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">UseBridges 1</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> Socks4Proxy localhost:1080</span><br><span class="line"><span class="meta">#</span> Socks5Proxy localhost:1080</span><br><span class="line"><span class="meta">#</span> HTTPSProxy localhost:8080</span><br><span class="line"></span><br><span class="line">Bridge meek 0.0.2.0:2 url=https://d2zfqthxsdq309.cloudfront.net/ front=a0.awsstatic.com</span><br><span class="line">Bridge meek 0.0.2.0:3 url=https://meek.azureedge.net/ front=ajax.aspnetcdn.com</span><br><span class="line">ClientTransportPlugin meek exec ./meek-client --log meek-client.log</span><br></pre></td></tr></table></figure>
+<p>没有使用代理，而是添加了两个使用meek插件的桥接。我们可以通过下面这样来启动<code>Tor</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tor -f torrc</span><br></pre></td></tr></table></figure>
+<p>此时你会看到Tor提示在<code>127.0.0.1:9050</code>启动了Socks，实际上是Socks5代理；接下来便可以在Firefox或其他浏览器的设置界面配置代理了。</p>
+<p>检查是否通过 Tor 发出请求，访问: <code>check.torproject.org</code>。</p>
+<p>通过Tor发出的请求花费的时间确实比较长，而且有时会出现超时的情况。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/tor/" rel="tag"># tor</a>
+          
+            <a href="/tags/翻墙/" rel="tag"># 翻墙</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/01/Syncthing-搭建个人同步网盘/" rel="next" title="Syncthing 搭建个人同步网盘">
+                <i class="fa fa-chevron-left"></i> Syncthing 搭建个人同步网盘
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://robohash.org/speroxu" alt="Spero Xu">
+            
+              <p class="site-author-name" itemprop="name">Spero Xu</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/speroxu" title="GitHub &rarr; https://github.com/speroxu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                  
+                    
+                  
+                  <a href="mailto:speroxu@gmail.com" title="E-Mail &rarr; mailto:speroxu@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i></a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Tor？"><span class="nav-number">1.</span> <span class="nav-text">什么是Tor？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#桥接中继"><span class="nav-number">2.</span> <span class="nav-text">桥接中继</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置桥接"><span class="nav-number">2.1.</span> <span class="nav-text">配置桥接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pluggable-Transport"><span class="nav-number">3.</span> <span class="nav-text">Pluggable Transport</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ScrambleSuit"><span class="nav-number">3.1.</span> <span class="nav-text">ScrambleSuit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OBFS4"><span class="nav-number">3.2.</span> <span class="nav-text">OBFS4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FTE"><span class="nav-number">3.3.</span> <span class="nav-text">FTE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#meek"><span class="nav-number">3.4.</span> <span class="nav-text">meek</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tor命令行配置"><span class="nav-number">4.</span> <span class="nav-text">Tor命令行配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载-Tor-命令行版"><span class="nav-number">4.1.</span> <span class="nav-text">下载 Tor 命令行版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-meek"><span class="nav-number">4.2.</span> <span class="nav-text">安装 meek</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置meek"><span class="nav-number">4.3.</span> <span class="nav-text">配置meek</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Spero Xu</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.0.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/affix.js?v=7.0.1"></script>
+
+  <script src="/js/src/schemes/pisces.js?v=7.0.1"></script>
+
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/next-boot.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+  
+
+<script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script>
+
+
+
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+
+<script>
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail';
+  guest = guest.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: 'gYiAKd8BpEA0TfySYiqoXxk5-gzGzoHsz',
+    appKey: 'fuedbkiqqoWGFxFlUxf2h3Fr',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn'
+  });
+</script>
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
